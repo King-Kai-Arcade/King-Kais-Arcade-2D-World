@@ -1,9 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://b5woclmexshad"]
+[gd_scene load_steps=13 format=3 uid="uid://b5woclmexshad"]
 
 [ext_resource type="Texture2D" uid="uid://tk8r86o7yeqm" path="res://art/sprites/tilesets/plains.png" id="1_0vm82"]
 [ext_resource type="Texture2D" uid="uid://8wnf3606wxf4" path="res://art/sprites/tilesets/grass.png" id="2_txx7n"]
 [ext_resource type="Texture2D" uid="uid://ciow0jy77ebdl" path="res://art/sprites/objects/objects.png" id="3_pa7no"]
 [ext_resource type="PackedScene" uid="uid://cguc4vglg6hlu" path="res://scenes/player.tscn" id="4_pjfkd"]
+[ext_resource type="Texture2D" uid="uid://dtd7x0fswlden" path="res://art/sprites/objects/rock_in_water_01.png" id="5_3ojxf"]
+[ext_resource type="Script" path="res://scenes/TicTacToe.gd" id="6_ykx4b"]
+[ext_resource type="Texture2D" uid="uid://5r1f147x86kr" path="res://art/sprites/objects/Tic_tac_toe.svg" id="7_nxhvp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g0eg8"]
 texture = ExtResource("1_0vm82")
@@ -200,6 +203,8 @@ sources/0 = SubResource("TileSetAtlasSource_g0eg8")
 sources/1 = SubResource("TileSetAtlasSource_eece4")
 sources/2 = SubResource("TileSetAtlasSource_clbqm")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_pmenv"]
+
 [node name="world" type="Node2D"]
 y_sort_enabled = true
 
@@ -227,3 +232,46 @@ layer_2/tile_data = PackedInt32Array(1048580, 2, 5, 262150, 2, 5, 393247, 2, 5, 
 
 [node name="player" parent="." instance=ExtResource("4_pjfkd")]
 position = Vector2(296, 82)
+
+[node name="TicTacToe" type="Sprite2D" parent="."]
+position = Vector2(103, 199)
+texture = ExtResource("5_3ojxf")
+script = ExtResource("6_ykx4b")
+
+[node name="Area2D" type="Area2D" parent="TicTacToe"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TicTacToe/Area2D"]
+scale = Vector2(2.31284, 2.31284)
+shape = SubResource("CircleShape2D_pmenv")
+
+[node name="Control" type="Control" parent="TicTacToe"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = -56.0
+offset_top = -55.0
+offset_right = -16.0
+offset_bottom = -15.0
+
+[node name="Button" type="Button" parent="TicTacToe/Control"]
+offset_right = 130.0
+offset_bottom = 31.0
+text = "Play TicTacKaka"
+
+[node name="Panel" type="Panel" parent="TicTacToe/Control"]
+offset_left = 32.0
+offset_top = -59.0
+offset_right = 72.0
+offset_bottom = -19.0
+scale = Vector2(1.3763, 1.3763)
+
+[node name="Image" type="TextureRect" parent="TicTacToe/Control"]
+offset_left = 35.0
+offset_top = -55.0
+offset_right = 557.0
+offset_bottom = 409.0
+scale = Vector2(0.0968699, 0.0968699)
+texture = ExtResource("7_nxhvp")
+
+[connection signal="area_entered" from="TicTacToe/Area2D" to="TicTacToe" method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="TicTacToe/Area2D" to="TicTacToe" method="_on_area_2d_area_exited"]
